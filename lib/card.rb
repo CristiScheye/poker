@@ -1,18 +1,18 @@
 require 'card_value'
 
 class Card
-  attr_reader :suit, :value
   include CardValue
+  attr_reader :suit, :value
 
   def initialize(suit, value)
     @suit, @value = suit, value
   end
 
   def point_value
-    CARD_POINTS[value]
+    VALUES.index(value)
   end
 
   def suit_rank
-    SUIT_RANK.index(suit)
+    SUITS.index(suit)
   end
 end

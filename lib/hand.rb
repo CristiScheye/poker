@@ -2,8 +2,8 @@ require 'card_value'
 
 class Hand
   include CardValue
-
   attr_accessor :cards
+
   def initialize
     @cards = Array.new(5)
   end
@@ -29,7 +29,13 @@ class Hand
   end
 
   def straight?
-    card_vals = cards.map {|card| card.point_value }
+    card_vals = cards.map {|card| VALUES.index(card.value) } #array of indices in VALUES
+
+    #if the hand *might* be a high straight, make its only ace high
+    if card_vals.include?(12) && card_vals.include?(0)
+      card_vals[card_vals.index(0)] = 13
+    end
+
     card_vals.sort!
     5.times do |i|
        return false if i + card_vals.min != card_vals[i]
@@ -46,38 +52,45 @@ class Hand
   end
 
   def highest_card
-    # value with highest frequency
-    # return highest value
-
     max_freq = card_val_frequency.values.max
     max_freq_vals = card_val_frequency.select{ |k, v| v == max_freq }.keys
-    max_freq_vals.each do |val|
 
+    sorted_high_vals = VALUES.select {|val| max_freq_vals.include?(val)}
+
+    #if the hand has kings and aces, put the aces last
+    if sorted_high_vals.include?(:ace) && sorted_high_vals.include?(:king)
+      sorted_high_vals << sorted_high_vals.shift
+    end
+
+    highest_val = sorted_high_vals.last
+
+    high_cards = cards.select {|card| card.value == highest_val}
+    high_cards.last
   end
 
+
   def rank
-    hand_status = card_val_frequency
-    val = 0
+    card_freq = card_val_frequency
     if flush? && straight? && cards.any? {|c| c.value == :ace }
-      val = 9
+      return 9
     elsif flush? && straight?
-      val = 8
-    elsif hand_status.has_value?(4)
-      val = 7
-    elsif hand_status.has_value?(3) && hand_status.has_value?(2)
-      val = 6
+      return 8
+    elsif card_freq.has_value?(4)
+      return 7
+    elsif card_freq.has_value?(3) && card_freq.has_value?(2)
+      return 6
     elsif flush?
-      val = 5
+      return 5
     elsif straight?
-      val = 4
-    elsif hand_status.has_value?(3)
-      val = 3
-    elsif hand_status.has_value?(2) && hand_status.keys.size == 3
-      val = 2
-    elsif hand_status.has_value?(2)
-      val = 1
+      return 4
+    elsif card_freq.has_value?(3)
+      return 3
+    elsif card_freq.has_value?(2) && card_freq.keys.size == 3
+      return 2
+    elsif card_freq.has_value?(2)
+      return 1
     end
-    val
+    0
   end
 
 end

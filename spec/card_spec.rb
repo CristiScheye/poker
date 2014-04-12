@@ -8,7 +8,7 @@ describe Card do
 
   describe '#point_value' do
     it "returns numerical point value" do
-      expect(card.point_value).to eq(11)
+      expect(card.point_value).to eq(10)
     end
   end
 

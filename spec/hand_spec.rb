@@ -99,7 +99,22 @@ describe Hand do
         expect(hand.rank).to eq(0)
       end
     end
+  end
 
+  describe '#highest_card' do
+    context 'when all cards in hand are scoring cards' do
+      it 'returns highest card' do
+        hand.cards = [s_a, s_k, s_q, s_j, s_10]
+        expect(hand.highest_card).to eq(s_a)
+      end
+    end
+
+    context 'when only a subset of cards are scoring cards' do
+      it 'returns the highest card' do
+        hand.cards = [d_9] * 2 + [s_j] * 2 + [s_a]
+        expect(hand.highest_card).to eq(s_j)
+      end
+    end
   end
 
   describe "beats?" do

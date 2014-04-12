@@ -1,11 +1,10 @@
 require_relative 'card'
+require_relative 'card_value'
 
 class Deck
-  attr_reader :cards
+  include CardValue
 
-  SUITS = [:heart, :diamond, :spade, :club]
-  VALUES = [:ace, :two, :three, :four, :five,
-    :six, :seven, :eight, :nine, :ten, :jack, :queen, :king]
+  attr_reader :cards
 
   def initialize
     @cards = SUITS.product(VALUES).map {|value| Card.new(value.first, value.last)}
