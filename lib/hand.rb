@@ -12,7 +12,6 @@ class Hand
     if rank > other_hand.rank
       return true
     elsif rank == other_hand.rank
-
       if highest_card.point_value > other_hand.highest_card.point_value
         return true
       elsif highest_card.point_value == other_hand.highest_card.point_value

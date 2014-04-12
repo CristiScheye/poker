@@ -13,6 +13,7 @@ describe Hand do
   let!(:s_10) {Card.new(:spade, :ten)}
   let!(:s_9) {Card.new(:spade, :nine)}
   let!(:d_9) {Card.new(:diamond, :nine)}
+  let!(:d_a) {Card.new(:diamond, :ace)}
 
   describe '#flush?' do
     it 'returns true if all cards have same suit' do
@@ -123,8 +124,8 @@ describe Hand do
 
     context 'when the two hands have different ranks' do
       it 'compares the rankings' do
-        hand1.stub(:rank).and_return(9)
-        hand2.stub(:rank).and_return(8)
+        hand1.cards = [s_a, s_k, s_q, s_j, s_10] #royal flush
+        hand2.cards = [s_k, s_q, s_j, s_10, s_9] #straight flush
         expect(hand1.beats?(hand2)).to be_true
       end
     end
@@ -132,19 +133,15 @@ describe Hand do
     context 'when the two hands have same rank' do
       context 'when two hands have different high value' do
         it 'compares the high values' do
-          hand1.stub(:rank).and_return(9)
-          hand2.stub(:rank).and_return(9)
-          hand1.stub(:highest_card).and_return(Card.new(:heart,:queen))
-          hand2.stub(:highest_card).and_return(Card.new(:heart,:jack))
+          hand1.cards = [s_a] * 3 + [s_j, d_9]
+          hand2.cards = [s_q] * 3 + [s_j, d_9]
           expect(hand1.beats?(hand2)).to be_true
         end
       end
       context 'when two hands have same high value' do
         it 'compares suits' do
-          hand1.stub(:rank).and_return(9)
-          hand2.stub(:rank).and_return(9)
-          hand1.stub(:highest_card).and_return(Card.new(:spade,:queen))
-          hand2.stub(:highest_card).and_return(Card.new(:heart,:queen))
+          hand1.cards = [s_a] * 3 + [s_j, d_9]
+          hand2.cards = [d_a] * 3 + [s_j, d_9]
           expect(hand1.beats?(hand2)).to be_true
         end
       end

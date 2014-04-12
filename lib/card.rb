@@ -9,7 +9,7 @@ class Card
   end
 
   def point_value
-    VALUES.index(value)
+    value == :ace ? 13 : VALUES.index(value)
   end
 
   def suit_rank
