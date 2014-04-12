@@ -46,8 +46,12 @@ class Hand
   end
 
   def highest_card
+    # value with highest frequency
+    # return highest value
+
     max_freq = card_val_frequency.values.max
-    max_freq_keys = card_val_frequency.select{ |k, v| v == max_freq }.keys
+    max_freq_vals = card_val_frequency.select{ |k, v| v == max_freq }.keys
+    max_freq_vals.each do |val|
 
   end
 
