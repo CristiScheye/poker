@@ -17,4 +17,10 @@ describe Card do
       expect(card.suit_rank).to eq(2)
     end
   end
+
+  describe '#render' do
+    it 'returns a string with value and pluralized suit' do
+      expect(card.render).to eq("#{card.value} of #{card.suit}s")
+    end
+  end
 end

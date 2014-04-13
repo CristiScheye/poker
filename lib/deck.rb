@@ -14,7 +14,7 @@ class Deck
     cards.shuffle!
   end
 
-  def draw!(num_cards)
+  def deal(num_cards)
     drawn_cards = []
     num_cards.times do
       drawn_cards << cards.pop

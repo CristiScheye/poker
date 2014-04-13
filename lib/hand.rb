@@ -2,10 +2,15 @@ require 'card_value'
 
 class Hand
   include CardValue
-  attr_accessor :cards
+  attr_accessor :cards, :deck
 
-  def initialize
-    @cards = Array.new(5)
+  def initialize(deck = nil)
+    @cards = []
+    @deck = (deck.nil? ? Deck.new : deck)
+  end
+
+  def draw(num)
+    self.cards += deck.deal(num)
   end
 
   def beats?(other_hand)
@@ -91,5 +96,4 @@ class Hand
     end
     0
   end
-
 end

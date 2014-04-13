@@ -13,22 +13,22 @@ describe Deck do
     end
   end
 
-  describe '#draw!' do
-    let!(:last_cards) { deck.cards[-2..-1] }
-    let!(:drawn_cards) { deck.draw!(2) }
+  describe '#deal' do
+    before(:each) do
+      @last_cards = deck.cards.last(2)
+      @drawn_cards = deck.deal(2)
+    end
 
     it 'removes n cards from the deck' do
       expect(deck.cards).to have(50).cards
     end
 
     it 'returns n cards from the deck' do
-      expect(drawn_cards).to have(2).cards
+      expect(@drawn_cards).to have(2).cards
     end
 
     it 'returns an array of card objects' do
-      expect(drawn_cards).to match_array(last_cards)
+      expect(@drawn_cards).to match_array(@last_cards)
     end
   end
-
-
 end

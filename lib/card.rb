@@ -15,4 +15,8 @@ class Card
   def suit_rank
     SUITS.index(suit)
   end
+
+  def render
+    "#{value} of #{suit}s"
+  end
 end

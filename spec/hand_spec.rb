@@ -4,7 +4,7 @@ require 'hand'
 
 describe Hand do
   subject(:hand) { Hand.new }
-  its(:cards) { should have(5).cards }
+  its(:cards) { should be_a Array }
 
   let!(:s_a) {Card.new(:spade, :ace)}
   let!(:s_k) {Card.new(:spade, :king)}
@@ -118,7 +118,7 @@ describe Hand do
     end
   end
 
-  describe "beats?" do
+  describe '#beats?' do
     let!(:hand1) { Hand.new }
     let!(:hand2) { Hand.new }
 
@@ -146,7 +146,16 @@ describe Hand do
         end
       end
     end
-
   end
 
+  describe '#draw' do
+    let(:card) { double('card') }
+    let!(:deck) { double('deck', cards: [card] * 3)}
+
+    before(:each) { hand.draw(2) }
+
+    it 'adds n cards to cards' do
+      expect(hand.cards).to have(2).cards
+    end
+  end
 end
